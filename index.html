@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GPS - Định Vị & Dẫn Lối Nhân Sự và Doanh Nghiệp</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (via CDN for single file portability) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Library for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-orange': '#F48024',
+                        'dark-navy': '#0A192F',
+                        'dark-text': '#1F2937',
+                        'light-bg': '#F3F4F6',
+                        'secondary-gray': '#4B5563',
+                        'partner-base': '#F8F8F8',
+                        'orange-light': '#FEE4D1',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Fix Horizontal Scroll Issue on Mobile */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F48024;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d96d1f;
+        }
+
+        /* Hero Background Pattern */
+        .hero-pattern {
+            background-color: #0A192F;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F48024' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Glassmorphism for cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: #e5e7eb;
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-line::before {
+                left: 20px;
+            }
+        }
+
+        /* Animations for Services Section */
+        @keyframes bounce-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(25%); }
+        }
+        .animate-bounce-x {
+            animation: bounce-x 1s infinite;
+        }
+        
+        /* Transition utility for JS swaps */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans text-dark-text antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-3xl font-extrabold text-primary-orange">GPS</span>
+                    <span class="ml-2 text-sm font-semibold text-dark-navy hidden sm:block border-l-2 border-gray-300 pl-2">ĐỊNH VỊ & DẪN LỐI</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#ve-chung-toi" class="text-secondary-gray hover:text-primary-orange font-medium transition">Về chúng tôi</a>
+                    <a href="#dich-vu" class="text-secondary-gray hover:text-primary-orange font-medium transition">Dịch vụ</a>
+                    <a href="#van-hoa" class="text-secondary-gray hover:text-primary-orange font-medium transition">Văn hóa</a>
+                    <a href="#lo-trinh" class="text-secondary-gray hover:text-primary-orange font-medium transition">Lộ trình</a>
+                    <a href="https://zalo.me/0353110299" target="_blank" class="bg-primary-orange text-white px-5 py-2.5 rounded-full font-semibold shadow-lg hover:bg-orange-600 transition transform hover:-translate-y-0.5">
+                        <i class="fas fa-comment-dots mr-2"></i>Liên hệ ngay
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-dark-navy hover:text-primary-orange focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 absolute w-full h-screen">
+            <div class="px-4 pt-2 pb-6 space-y-2 shadow-xl bg-white">
+                <a href="#ve-chung-toi" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-primary-orange hover:bg-orange-50 rounded-md">Về chúng tôi</a>
+                <a href="#dich-vu" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-primary-orange hover:bg-orange-50 rounded-md">Dịch vụ</a>
+                <a href="#van-hoa" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-primary-orange hover:bg-orange-50 rounded-md">Văn hóa</a>
+                <a href="#lo-trinh" class="mobile-link block px-3 py-3 text-base font-medium text-gray-700 hover:text-primary-orange hover:bg-orange-50 rounded-md">Lộ trình</a>
+                <a href="https://zalo.me/0353110299" target="_blank" class="block px-3 py-3 text-base font-medium text-primary-orange font-bold border-t border-gray-100 mt-2 pt-4">
+                    <i class="fas fa-comment-dots mr-2"></i>Liên hệ Zalo
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 hero-pattern text-white overflow-hidden">
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-primary-orange rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight" data-aos="fade-up">
+                <span class="text-primary-orange">ĐỊNH VỊ & DẪN LỐI</span><br>
+                NHÂN SỰ VÀ DOANH NGHIỆP
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-300 mb-10" data-aos="fade-up" data-aos-delay="100">
+                Chúng tôi giúp doanh nghiệp xác định hướng đi tối ưu, nâng cao năng lực đội ngũ và đạt hiệu suất làm việc cao nhất.
+            </p>
+            <div class="flex justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+                <a href="#dich-vu" class="px-8 py-4 border border-transparent text-base font-medium rounded-md text-white bg-primary-orange hover:bg-orange-600 md:text-lg shadow-lg hover:shadow-orange-500/50 transition duration-300">
+                    Giải Pháp Toàn Diện
+                </a>
+                <a href="https://zalo.me/0353110299" target="_blank" class="px-8 py-4 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-dark-navy md:text-lg transition duration-300">
+                    Tư Vấn Ngay
+                </a>
+            </div>
+        </div>
+        
+        <!-- Decoration Elements -->
+        <div class="absolute bottom-5 left-1/2 transform -translate-x-1/2 z-20">
+             <i class="fas fa-chevron-down text-4xl text-white/50 animate-bounce"></i>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section id="ve-chung-toi" class="py-20 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Vision -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-flex items-center justify-center p-3 bg-orange-light rounded-full mb-4">
+                    <i class="fas fa-rocket text-2xl text-primary-orange"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-dark-navy mb-4">Tầm nhìn (Vision)</h2>
+                <p class="text-xl text-secondary-gray max-w-3xl mx-auto">
+                    Trở thành công ty <span class="text-primary-orange font-bold">số 1 Việt Nam</span> về giải pháp xây dựng đội ngũ nhân sự chất lượng cao cho các doanh nghiệp.
+                </p>
+            </div>
+
+            <!-- Mission -->
+            <div class="bg-light-bg rounded-2xl p-8 md:p-12 shadow-sm" data-aos="zoom-in">
+                <div class="text-center mb-10">
+                     <div class="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-4">
+                        <i class="fas fa-bullseye text-2xl text-dark-navy"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-dark-navy">Sứ mệnh (Mission)</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Mission Item 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 group border-t-4 border-primary-orange">
+                        <div class="text-primary-orange text-xl font-bold mb-3 group-hover:scale-110 transition-transform origin-left">Với Doanh Nghiệp</div>
+                        <p class="text-sm text-secondary-gray">Kiến tạo Nguồn nhân lực Chất lượng và Hệ thống Quản trị Bền vững, thúc đẩy tăng trưởng đột phá.</p>
+                    </div>
+                    <!-- Mission Item 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 group border-t-4 border-dark-navy">
+                        <div class="text-dark-navy text-xl font-bold mb-3 group-hover:scale-110 transition-transform origin-left">Với Nhân Sự</div>
+                        <p class="text-sm text-secondary-gray">Xây dựng Nền tảng Con người. Kiến tạo môi trường phát triển bền vững.</p>
+                    </div>
+                    <!-- Mission Item 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 group border-t-4 border-primary-orange">
+                        <div class="text-primary-orange text-xl font-bold mb-3 group-hover:scale-110 transition-transform origin-left">Với Đối Tác</div>
+                        <p class="text-sm text-secondary-gray">Cộng hưởng giá trị và đồng hành tăng trưởng.</p>
+                    </div>
+                    <!-- Mission Item 4 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 group border-t-4 border-dark-navy">
+                        <div class="text-dark-navy text-xl font-bold mb-3 group-hover:scale-110 transition-transform origin-left">Với Đất Nước</div>
+                        <p class="text-sm text-secondary-gray">Đóng góp tăng trưởng lâu dài. Nâng cao chất lượng nguồn nhân lực quốc gia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="py-20 bg-dark-navy text-white relative overflow-hidden">
+        <!-- Decoration bg -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#F48024 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-primary-orange font-bold tracking-widest uppercase text-sm">Giá trị cốt lõi</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2">Core Values</h2>
+                <div class="w-20 h-1 bg-primary-orange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-orange transition duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <i class="fas fa-users text-4xl text-primary-orange mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Con người</h3>
+                    <p class="text-gray-300 text-sm">Là yếu tố quan trọng nhất quyết định sự thành công của tổ chức.</p>
+                </div>
+                <div class="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-orange transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-book-reader text-4xl text-primary-orange mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Học hỏi</h3>
+                    <p class="text-gray-300 text-sm">Liên tục Học hỏi phát triển không ngừng.</p>
+                </div>
+                <div class="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-orange transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-gavel text-4xl text-primary-orange mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Kỷ luật</h3>
+                    <p class="text-gray-300 text-sm">Kỷ luật tạo nên sức mạnh.</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 text-center max-w-4xl mx-auto">
+                <div class="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-orange transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-handshake text-4xl text-primary-orange mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Đoàn kết</h3>
+                    <p class="text-gray-300 text-sm">Đoàn kết cùng chung mục tiêu mới có thể cùng nhau vươn xa.</p>
+                </div>
+                <div class="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-orange transition duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-star text-4xl text-primary-orange mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Phụng sự</h3>
+                    <p class="text-gray-300 text-sm">Sẵn lòng phục vụ, đặt lợi ích của khách hàng, đồng nghiệp, cộng đồng lên trên.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SERVICES SECTION (UPDATED with React-like Model) -->
+    <section id="dich-vu" class="py-20 bg-light-bg overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-dark-navy mb-2">MÔ HÌNH SẢN PHẨM & DỊCH VỤ</h2>
+                <p class="text-secondary-gray font-medium">Chu trình giá trị khép kín: Tuyển dụng - Tư vấn & Đào tạo - Setup hệ thống</p>
+                <div class="w-24 h-1 bg-primary-orange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Main Interactive Model -->
+            <div class="relative w-full max-w-5xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 md:p-12 border border-white/50" data-aos="zoom-in">
+                
+                <!-- Background Decorative Grid -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none rounded-2xl overflow-hidden" 
+                     style="background-image: radial-gradient(#F48024 1px, transparent 1px); background-size: 20px 20px;">
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    
+                    <!-- Left Side: The Triangle Visualizer -->
+                    <div class="relative w-80 h-72 md:w-96 md:h-80 flex-shrink-0 mx-auto lg:mx-0">
+                        
+                        <!-- SVG Connecting Lines -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 400 350">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="28" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#9CA3AF" />
+                                </marker>
+                            </defs>
+
+                            <!-- Path 1: Top to Right -->
+                            <path id="path-0" d="M 200 60 L 340 280" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="10,5" />
+                            
+                            <!-- Path 2: Right to Left -->
+                            <path id="path-1" d="M 340 280 L 60 280" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="10,5" />
+                            
+                            <!-- Path 3: Left to Top -->
+                            <path id="path-2" d="M 60 280 L 200 60" stroke="#CBD5E1" stroke-width="4" stroke-dasharray="10,5" />
+                        </svg>
+
+                        <!-- Central Logo -->
+                        <!-- UPDATED: Changed positioning from fixed pixels (top-[180px] left-[150px]) to responsive centering (top-[58%] left-1/2 transform -translate-x-1/2 -translate-y-1/2) -->
+                        <div class="absolute top-[58%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[100px] h-[40px] flex items-center justify-center z-10 text-center">
+                            <span class="font-extrabold text-4xl text-dark-navy tracking-tighter drop-shadow-sm">GPS</span>
+                        </div>
+
+                        <!-- Nodes Container -->
+                        <div id="pillars-container">
+                            <!-- Nodes will be injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Info Panel -->
+                    <div class="flex-1 w-full bg-blue-50/50 rounded-xl p-6 border border-blue-100 min-h-[320px] flex flex-col justify-between relative transition-all duration-500" id="info-panel-container">
+                        
+                         <!-- Auto play toggle -->
+                         <div class="absolute top-4 right-4 z-10">
+                            <button id="toggle-autoplay" class="w-8 h-8 flex items-center justify-center bg-white border border-blue-100 rounded-full hover:bg-blue-50 text-dark-navy cursor-pointer shadow-sm transition-transform hover:scale-110" title="Tạm dừng/Tiếp tục">
+                                <i class="fas fa-pause text-xs" id="play-icon"></i>
+                            </button>
+                         </div>
+
+                         <!-- Content will be injected by JS -->
+                         <div id="info-content" class="fade-in">
+                             <!-- Dynamic Content -->
+                         </div>
+
+                         <!-- Footer with Next Step -->
+                         <div class="mt-6 pt-6 border-t border-blue-200" id="info-footer">
+                             <!-- Dynamic Content -->
+                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="mt-8 text-secondary-gray/80 text-sm max-w-2xl mx-auto text-center italic">
+                *Mô hình này minh họa cách GPS kết hợp 3 yếu tố cốt lõi để tạo ra giải pháp nhân sự toàn diện cho doanh nghiệp.
+            </p>
+        </div>
+    </section>
+
+    <!-- Culture Section -->
+    <section id="van-hoa" class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-12 items-start">
+                <div class="md:w-1/3" data-aos="fade-right">
+                    <span class="text-primary-orange font-bold uppercase tracking-wide">Văn hóa doanh nghiệp</span>
+                    <h2 class="text-4xl font-extrabold text-dark-navy mt-2 mb-6">Môi trường làm việc tại GPS</h2>
+                    <p class="text-secondary-gray mb-6">
+                        Chúng tôi không chỉ làm việc – Chúng tôi cùng nhau tạo ra giá trị & phát triển bền vững!
+                    </p>
+                    <div class="p-6 bg-orange-50 rounded-xl border border-orange-100">
+                        <p class="italic text-dark-text font-medium">"Tư duy tích cực & chủ động là chìa khóa để mở mọi cánh cửa."</p>
+                    </div>
+                </div>
+                
+                <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6" data-aos="fade-left">
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-dark-navy text-white rounded-full flex items-center justify-center font-bold">1</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Tư duy tích cực & chủ động</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Luôn lạc quan, chủ động tìm giải pháp và không ngừng học hỏi để phát triển.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-primary-orange text-white rounded-full flex items-center justify-center font-bold">2</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Hiệu suất & Kết quả</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Tập trung đạt mục tiêu rõ ràng và tạo ra giá trị, tác động tích cực với hiệu suất tối ưu.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-dark-navy text-white rounded-full flex items-center justify-center font-bold">3</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Hợp tác & Minh bạch</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Xây dựng môi trường công bằng, hợp tác chặt chẽ và giao tiếp thẳng thắn, cởi mở.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-primary-orange text-white rounded-full flex items-center justify-center font-bold">4</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Sáng tạo & Đổi mới liên tục</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Không ngừng thử nghiệm, sáng tạo và cập nhật công nghệ để tạo ra giá trị mới và phát triển bền vững.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-dark-navy text-white rounded-full flex items-center justify-center font-bold">5</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Kỷ luật & Trách nhiệm</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Tuân thủ kỷ luật, đề cao tinh thần trách nhiệm, đúng cam kết và giữ vững đạo đức nghề nghiệp.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+                        <div class="flex-shrink-0 w-10 h-10 bg-primary-orange text-white rounded-full flex items-center justify-center font-bold">6</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Trách nhiệm với cộng đồng & xã hội</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Phát triển doanh nghiệp song hành với nâng cao chất lượng nhân lực và trách nhiệm với môi trường, cộng đồng.</p>
+                        </div>
+                    </div>
+                     <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition sm:col-span-2">
+                        <div class="flex-shrink-0 w-10 h-10 bg-dark-navy text-white rounded-full flex items-center justify-center font-bold">7</div>
+                        <div>
+                            <h4 class="font-bold text-dark-text text-lg">Đề cao con người & phát triển sự nghiệp</h4>
+                            <p class="text-sm text-secondary-gray mt-1">Coi trọng con người, tạo điều kiện phát huy tiềm năng và đảm bảo cân bằng giữa công việc với cuộc sống.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="lo-trinh" class="py-20 bg-light-bg overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark-navy">Định Hướng Phát Triển</h2>
+                <div class="w-20 h-1 bg-primary-orange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="relative timeline-line">
+                <!-- Node 1 -->
+                <div class="mb-8 flex justify-between items-center w-full right-timeline group">
+                    <div class="order-1 w-5/12 hidden md:block"></div>
+                    <div class="z-20 flex items-center order-1 bg-primary-orange shadow-xl w-8 h-8 rounded-full border-4 border-white">
+                    </div>
+                    <div class="order-1 w-full md:w-5/12 bg-white rounded-lg shadow-xl px-6 py-6" data-aos="fade-left">
+                        <h3 class="mb-3 font-bold text-dark-navy text-xl">Giai đoạn 1 (2025)</h3>
+                        <div class="text-primary-orange font-semibold text-sm mb-2">Tổ chức & Đóng gói Nền tảng Dịch vụ</div>
+                        <p class="text-sm text-secondary-gray leading-snug">
+                            Kiện toàn bộ máy, chuẩn hóa quy trình, đóng gói dịch vụ tuyển dụng nhân sự và mở mô hình tư vấn và đào tạo chuyên nghiệp.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline group">
+                    <div class="order-1 w-5/12 hidden md:block"></div>
+                    <div class="z-20 flex items-center order-1 bg-dark-navy shadow-xl w-8 h-8 rounded-full border-4 border-white">
+                    </div>
+                    <div class="order-1 w-full md:w-5/12 bg-white rounded-lg shadow-xl px-6 py-6" data-aos="fade-right">
+                        <h3 class="mb-3 font-bold text-dark-navy text-xl">Giai đoạn 2 (2026 - 2027)</h3>
+                        <div class="text-primary-orange font-semibold text-sm mb-2">Mở rộng Thị trường & Khẳng định Vị thế</div>
+                        <ul class="text-sm text-secondary-gray list-disc list-inside leading-snug">
+                            <li>Top 10 tại Hà Nội (2026)</li>
+                            <li>Top 5 và mở chi nhánh tại TP. Hồ Chí Minh (2027)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="mb-8 flex justify-between items-center w-full right-timeline group">
+                    <div class="order-1 w-5/12 hidden md:block"></div>
+                    <div class="z-20 flex items-center order-1 bg-primary-orange shadow-xl w-8 h-8 rounded-full border-4 border-white">
+                    </div>
+                    <div class="order-1 w-full md:w-5/12 bg-white rounded-lg shadow-xl px-6 py-6" data-aos="fade-left">
+                        <h3 class="mb-3 font-bold text-dark-navy text-xl">Giai đoạn 3 (2028 - 2030)</h3>
+                        <div class="text-primary-orange font-semibold text-sm mb-2">Mở rộng Dấu chân Quốc gia & Dẫn đầu Ngành</div>
+                        <p class="text-sm text-secondary-gray leading-snug">
+                            Mở rộng mạng lưới chi nhánh tại Đà Nẵng, Hải Phòng, Quảng Ninh.
+                            Trở thành <span class="font-bold">Top 1</span> công ty hàng đầu toàn quốc về giải pháp nhân sự năm 2030.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="py-16 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold text-dark-navy mb-10">Khách hàng của chúng tôi</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">VIB BANK</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">SEODO</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">FASO</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">RƯỢU VANG CAO MINH</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">NGỌC VIỆT</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">HBG GROUPS</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">GENTA</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">ADAVIGO</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">NEWSPACE</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">ECOM</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">HOLI TOUR</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">HOME PLUS</div>
+                 <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">SOLEIL ROOM</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">VABIO</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">BIGFRUIT</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">DC GROUPS</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">K - MART</div>
+                <div class="p-4 bg-partner-base rounded flex items-center justify-center font-bold text-gray-500 hover:text-primary-orange hover:shadow-md transition">HÀ THÀNH GARA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="lien-he" class="bg-dark-navy text-white pt-16 pb-8 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-gray-700 pb-12">
+                <!-- Brand Info -->
+                <div data-aos="fade-up">
+                    <h3 class="text-3xl font-extrabold text-primary-orange mb-4">GPS</h3>
+                    <p class="text-gray-300 mb-6 font-medium">Định Vị & Dẫn Lối Nhân Sự và Doanh Nghiệp</p>
+                    <p class="text-gray-400 text-sm">© 2025 GPS. All Rights Reserved.</p>
+                </div>
+
+                <!-- Contact Info -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-bold mb-6">Liên Hệ Trực Tiếp</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-primary-orange mt-1 mr-3"></i>
+                            <div>
+                                <span class="block text-gray-400 text-sm">Hotline / Zalo</span>
+                                <a href="https://zalo.me/0353110299" target="_blank" class="font-semibold hover:text-primary-orange transition">0353 110 299</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-primary-orange mt-1 mr-3"></i>
+                            <div>
+                                <span class="block text-gray-400 text-sm">Email</span>
+                                <span class="font-semibold text-white">trienkhainhansu@gmail.com</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary-orange mt-1 mr-3"></i>
+                            <div>
+                                <span class="block text-gray-400 text-sm">Địa chỉ</span>
+                                <span class="font-medium">3B Cù Chính Lan, Thanh Xuân, Hà Nội</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-bold mb-6">Theo Dõi Chúng Tôi</h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="https://www.facebook.com/dungnguoidungviecc/" target="_blank" class="flex items-center group">
+                                <span class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-3 group-hover:scale-110 transition">
+                                    <i class="fab fa-facebook-f text-white text-sm"></i>
+                                </span>
+                                <span class="text-gray-300 group-hover:text-primary-orange transition">Page: Đúng Người - Đúng Việc</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/groups/575546768359383" target="_blank" class="flex items-center group">
+                                <span class="w-8 h-8 rounded-full bg-blue-500 border border-gray-600 flex items-center justify-center mr-3 group-hover:scale-110 transition">
+                                    <i class="fas fa-users text-white text-sm"></i>
+                                </span>
+                                <span class="text-gray-300 group-hover:text-primary-orange transition">Group: GPS - Cộng đồng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/@dungnguoi.dungviec?is_from_webapp=1&sender_device=pc" target="_blank" class="flex items-center group">
+                                <span class="w-8 h-8 rounded-full bg-black border border-gray-600 flex items-center justify-center mr-3 group-hover:scale-110 transition">
+                                    <i class="fab fa-tiktok text-white text-sm"></i>
+                                </span>
+                                <span class="text-gray-300 group-hover:text-primary-orange transition">Tiktok: Đúng Người - Đúng Việc</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.threads.com/@gps_dungnguoi_dungviec" target="_blank" class="flex items-center group">
+                                <span class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center mr-3 group-hover:scale-110 transition">
+                                    <i class="fas fa-at text-white text-sm"></i>
+                                </span>
+                                <span class="text-gray-300 group-hover:text-primary-orange transition">Threads: Đúng Người - Đúng Việc</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 text-center text-gray-500 text-sm">
+                <p>Designed for Excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                menu.classList.add('hidden');
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, 
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            });
+        });
+
+        // Sticky Navbar effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.remove('py-2');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.add('py-2');
+            }
+        });
+
+        // --- SERVICE SECTION LOGIC (Vanilla JS replacement for React) ---
+        (function() {
+            const pillars = [
+                {
+                    id: 0,
+                    title: "TUYỂN DỤNG",
+                    subTitle: "(Recruitment)",
+                    iconClass: "fas fa-user-check",
+                    color: "bg-blue-600",
+                    textCol: "text-blue-600",
+                    borderColor: "#2563EB",
+                    metaphor: "Chọn Nguyên Liệu Tốt",
+                    action: "Tuyển đúng người",
+                    desc: "Tìm kiếm nhân sự phù hợp với Văn hóa - Năng lực - Định hướng. Đây là đầu vào quan trọng nhất.",
+                    positionClass: "-top-4 left-1/2 -translate-x-1/2"
+                },
+                {
+                    id: 1,
+                    title: "TƯ VẤN & ĐÀO TẠO",
+                    subTitle: "(Consulting & Training)",
+                    iconClass: "fas fa-book-open",
+                    color: "bg-primary-orange",
+                    textCol: "text-primary-orange",
+                    borderColor: "#F48024",
+                    metaphor: "Mài Giũa Nguyên Liệu",
+                    action: "Huấn luyện làm việc giỏi",
+                    desc: "Nâng tầm tư duy và kỹ năng. Biến nhân sự tiềm năng thành nhân tài thực thụ.",
+                    positionClass: "bottom-0 -right-4"
+                },
+                {
+                    id: 2,
+                    title: "SETUP HỆ THỐNG",
+                    subTitle: "(System Setup)",
+                    iconClass: "fas fa-cogs",
+                    color: "bg-green-600",
+                    textCol: "text-green-600",
+                    borderColor: "#16A34A",
+                    metaphor: "Lắp Ghép Vào Cỗ Máy",
+                    action: "Vận hành chuẩn mực",
+                    desc: "Đưa nhân sự vào quy trình bài bản, giúp doanh nghiệp vận hành trơn tru và bền vững.",
+                    positionClass: "bottom-0 -left-4"
+                }
+            ];
+
+            let activeStep = 0;
+            let isAutoPlaying = true;
+            let intervalId;
+
+            const pillarsContainer = document.getElementById('pillars-container');
+            const infoContent = document.getElementById('info-content');
+            const infoFooter = document.getElementById('info-footer');
+            const toggleBtn = document.getElementById('toggle-autoplay');
+            const playIcon = document.getElementById('play-icon');
+            
+            // Paths in SVG
+            const paths = [
+                document.getElementById('path-0'),
+                document.getElementById('path-1'),
+                document.getElementById('path-2')
+            ];
+
+            function render() {
+                // 1. Render Pillars/Nodes
+                pillarsContainer.innerHTML = '';
+                pillars.forEach((pillar, index) => {
+                    const isActive = (index === activeStep);
+                    const btn = document.createElement('button');
+                    // Positioning logic needs to be exact to match design
+                    // Top: top-0 left-1/2
+                    // Right: bottom-0 right-0
+                    // Left: bottom-0 left-0
+                    
+                    // Specific inline styles for positioning to match React logic
+                    let styleTop = '80%';
+                    let styleLeft = 'auto';
+                    let styleRight = 'auto';
+                    let transform = 'none';
+
+                    if (index === 0) { // Top
+                        styleTop = '0%';
+                        styleLeft = '50%';
+                        transform = 'translateX(-50%)';
+                    } else if (index === 1) { // Right
+                         styleRight = '0%';
+                    } else if (index === 2) { // Left
+                         styleLeft = '0%';
+                    }
+
+                    // Apply scaling if active
+                    if (isActive) transform += ' scale(1.1)';
+
+                    btn.className = `absolute transition-all duration-300 z-20 flex flex-col items-center cursor-pointer ${pillar.positionClass}`;
+                    btn.style.top = styleTop;
+                    btn.style.left = styleLeft;
+                    btn.style.right = styleRight;
+                    btn.style.transform = transform;
+                    
+                    btn.onclick = () => handleStepClick(index);
+
+                    // Circle
+                    const circle = document.createElement('div');
+                    const circleBaseClass = "w-20 h-20 rounded-full shadow-lg flex items-center justify-center mb-2 border-4 transition-all duration-300";
+                    const circleActiveClass = isActive 
+                        ? `${pillar.color} border-white ring-4 ring-opacity-30 ring-current text-white`
+                        : `bg-white/90 backdrop-blur text-gray-400 border-gray-100`;
+                    
+                    circle.className = `${circleBaseClass} ${circleActiveClass}`;
+                    circle.innerHTML = `<i class="${pillar.iconClass} text-3xl"></i>`;
+                    
+                    // Label
+                    const label = document.createElement('div');
+                    const labelBaseClass = "font-bold text-sm px-3 py-1 rounded-full shadow-sm border transition-all duration-300";
+                    const labelActiveClass = isActive
+                        ? `bg-white ${pillar.textCol} border-current`
+                        : `bg-white/90 backdrop-blur text-gray-500 border-transparent`;
+                    
+                    label.className = `${labelBaseClass} ${labelActiveClass}`;
+                    label.innerText = pillar.title;
+
+                    btn.appendChild(circle);
+                    btn.appendChild(label);
+                    pillarsContainer.appendChild(btn);
+                });
+
+                // 2. Update SVG Paths
+                paths.forEach((path, index) => {
+                    if (index === activeStep) {
+                        path.setAttribute('stroke', pillars[activeStep].borderColor);
+                        path.classList.add('animate-pulse');
+                        path.setAttribute('stroke-opacity', '1');
+                    } else {
+                        path.setAttribute('stroke', '#CBD5E1');
+                        path.classList.remove('animate-pulse');
+                         path.setAttribute('stroke-opacity', '0.5');
+                    }
+                });
+
+                // 3. Update Info Panel Content
+                // Trigger reflow for animation
+                infoContent.classList.remove('fade-in');
+                void infoContent.offsetWidth; // trigger reflow
+                infoContent.classList.add('fade-in');
+
+                const currentPillar = pillars[activeStep];
+                infoContent.innerHTML = `
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-3 rounded-lg ${currentPillar.color} text-white shadow-md">
+                            <i class="${currentPillar.iconClass} text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold ${currentPillar.textCol}">${currentPillar.title}</h2>
+                            <p class="text-secondary-gray text-sm font-medium">${currentPillar.subTitle}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/80 backdrop-blur p-4 rounded-lg border-l-4 border-blue-200 shadow-sm">
+                            <h3 class="font-semibold text-dark-navy mb-1 flex items-center gap-2">
+                                <i class="fas fa-briefcase text-blue-600"></i> Ẩn dụ:
+                            </h3>
+                            <p class="text-lg text-dark-text italic">"${currentPillar.metaphor}"</p>
+                        </div>
+
+                        <div class="bg-white/80 backdrop-blur p-4 rounded-lg border-l-4 border-blue-200 shadow-sm">
+                            <h3 class="font-semibold text-dark-navy mb-1 flex items-center gap-2">
+                                <i class="fas fa-chart-line text-blue-600"></i> Hành động:
+                            </h3>
+                            <p class="text-secondary-gray">${currentPillar.desc}</p>
+                        </div>
+                    </div>
+                `;
+
+                // 4. Update Footer
+                const nextStep = (activeStep + 1) % 3;
+                infoFooter.innerHTML = `
+                    <div class="flex items-center text-sm text-secondary-gray cursor-pointer hover:text-primary-orange transition" onclick="handleStepClick(${nextStep})">
+                        <span class="font-semibold mr-2">Bước tiếp theo:</span>
+                        <span class="font-bold text-dark-navy mr-2">${pillars[nextStep].action}</span>
+                        <i class="fas fa-arrow-right animate-bounce-x text-primary-orange ml-auto"></i>
+                    </div>
+                `;
+            }
+
+            function startLoop() {
+                if (intervalId) clearInterval(intervalId);
+                intervalId = setInterval(() => {
+                    activeStep = (activeStep + 1) % 3;
+                    render();
+                }, 3000);
+            }
+
+            function stopLoop() {
+                if (intervalId) clearInterval(intervalId);
+            }
+
+            // Global handler (exposed to window for onclick in HTML if needed, though we add listeners directly)
+            window.handleStepClick = function(index) {
+                activeStep = index;
+                isAutoPlaying = false;
+                updatePlayButton();
+                stopLoop();
+                render();
+            }
+
+            function updatePlayButton() {
+                if (isAutoPlaying) {
+                    playIcon.className = "fas fa-pause text-xs";
+                    toggleBtn.title = "Tạm dừng";
+                } else {
+                    playIcon.className = "fas fa-play text-xs pl-0.5"; // adjust centering
+                    toggleBtn.title = "Tiếp tục chạy";
+                }
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                isAutoPlaying = !isAutoPlaying;
+                updatePlayButton();
+                if (isAutoPlaying) {
+                    startLoop();
+                } else {
+                    stopLoop();
+                }
+            });
+
+            // Init
+            render();
+            startLoop();
+
+        })();
+    </script>
+</body>
+</html>
